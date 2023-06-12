@@ -6,10 +6,10 @@ import { Outlet } from "react-router-dom";
 const Layout = ({ search, setSearch }) => {
   return (
     <div className="App">
-      <Header />
-      <Nav />
+      <Header title={"React JS Router Blog"} />
+      <Nav search={search} setSearch={setSearch} />
       <Outlet />
-      <Footer search={search} setSearch={setSearch} />
+      <Footer />
     </div>
   );
 };

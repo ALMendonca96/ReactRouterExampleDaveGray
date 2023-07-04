@@ -5,7 +5,7 @@ const About = () => {
     <main className="About">
       <h2>About</h2>
       <p style={{ marginTop: "1rem" }}>
-        This blog app is a project in the Learn React Series, whatch it on Dave
+        This blog app is a project in the Learn React Series, watch it on Dave
         Gray's youtube channel!
       </p>
     </main>

@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const EditPost = ({
   posts,

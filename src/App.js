@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import api from "./api/posts";
 import useWindowSize from "./hooks/useWindowSize";
+import useAxiosFetch from "./hooks/useAxiosFetch";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -21,28 +22,15 @@ function App() {
   const [editBody, setEditBody] = useState("");
   const { width } = useWindowSize();
 
-  const navigate = useNavigate();
+  const { data, fetchError, isLoading } = useAxiosFetch(
+    "http://localhost:3500/posts"
+  );
 
-  //Load the data
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await api.get("/posts");
-        //axios already catches the error if the response isn't in the 200 range, so we don't need to test the response
-        setPosts(response.data);
-      } catch (err) {
-        if (err.response) {
-          console.log(err.response.data);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-        } else {
-          console.log(`Error: ${err.message}`);
-        }
-      }
-    };
+    setPosts(data);
+  }, [data]);
 
-    fetchPosts();
-  }, []); //The empty array sinalizes that the useEffect will only happen at load time
+  const navigate = useNavigate();
 
   useEffect(() => {
     const filteredResults = posts.filter(
@@ -105,7 +93,16 @@ function App() {
         path="/"
         element={<Layout search={search} setSearch={setSearch} width={width} />}
       >
-        <Route index element={<Home posts={searchResults} />} />
+        <Route
+          index
+          element={
+            <Home
+              posts={searchResults}
+              fetchError={fetchError}
+              isLoading={isLoading}
+            />
+          }
+        />
         <Route path="post">
           <Route
             index
